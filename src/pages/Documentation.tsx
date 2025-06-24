@@ -26,7 +26,7 @@ interface DocSection {
 
 const docSections: DocSection[] = [
   {
-    id: 'GRE 라이팅 이란',
+    id: 'introduction',
     title: 'GRE 라이팅 개요',
     path: '/introduction.md'
   },
@@ -36,9 +36,21 @@ const docSections: DocSection[] = [
     path: '/issue-task.md',
     subsections: [
       {
-        id: 'task1',
-        title: 'Task1',
-        path: '/issue/task1.md'
+        id: 'technology',
+        title: 'Technology',
+        path: '/issue/technology.md',
+        subsections: [
+          {
+            id: 'technology-task1',
+            title: 'Task 1',
+            path: '/issue/technology/task1.md'
+          },
+          {
+            id: 'technology-task2',
+            title: 'Task 2',
+            path: '/issue/technology/task2.md'
+          }
+        ]
       }
     ]
   },
@@ -227,30 +239,37 @@ export const Documentation = () => {
     }
   };
 
-  useEffect(() => {
-    const findDocPath = (path: string): string => {
-      // First check main sections
-      for (const section of docSections) {
+  const findDocPath = (path: string): string => {
+    // Helper function to search through all levels of sections
+    const searchSections = (sections: DocSection[]): string | null => {
+      for (const section of sections) {
         if (section.id === path) {
           return section.path;
         }
-        // Then check subsections
         if (section.subsections) {
-          for (const subsection of section.subsections) {
-            if (subsection.id === path) {
-              return subsection.path;
-            }
+          const subsectionPath = searchSections(section.subsections);
+          if (subsectionPath) {
+            return subsectionPath;
           }
         }
       }
-      // If no match found, redirect to introduction
-      if (path !== 'introduction') {
-        navigate('/introduction');
-        return '/introduction.md';
-      }
-      return '/introduction.md';
+      return null;
     };
 
+    const docPath = searchSections(docSections);
+    if (docPath) {
+      return docPath;
+    }
+
+    // If no match found, redirect to introduction
+    if (path !== 'introduction') {
+      navigate('/introduction');
+      return '/introduction.md';
+    }
+    return '/introduction.md';
+  };
+
+  useEffect(() => {
     const docPath = findDocPath(currentPath);
     loadDocument(docPath);
   }, [currentPath, navigate]);
