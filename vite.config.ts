@@ -15,15 +15,18 @@ export default defineConfig({
         main: resolve(__dirname, 'index.html')
       },
       output: {
-        entryFileNames: 'assets/[name].[hash].js',
-        chunkFileNames: 'assets/[name].[hash].js',
+        entryFileNames: `assets/[name].[hash].js`,
+        chunkFileNames: `assets/[name].[hash].js`,
         assetFileNames: (assetInfo) => {
           const info = assetInfo.name.split('.')
           const ext = info[info.length - 1]
           if (ext === 'svg') {
             return `[name][extname]`
           }
-          return 'assets/[name].[hash][extname]'
+          if (ext === 'css') {
+            return `assets/[name].[hash][extname]`
+          }
+          return `assets/[name].[hash][extname]`
         }
       }
     }
@@ -31,6 +34,11 @@ export default defineConfig({
   server: {
     headers: {
       'Content-Type': 'application/javascript'
+    }
+  },
+  resolve: {
+    alias: {
+      '@': resolve(__dirname, './src')
     }
   }
 })
