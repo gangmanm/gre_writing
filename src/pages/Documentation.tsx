@@ -177,7 +177,13 @@ export const Documentation = () => {
   const loadDocument = async (path: string) => {
     try {
       const baseUrl = import.meta.env.VITE_BASE_URL || '/';
-      const response = await fetch(`${baseUrl}docs${path}`);
+      // Ensure proper path construction
+      const normalizedBase = baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`;
+      const normalizedPath = path.startsWith('/') ? path.slice(1) : path;
+      const docPath = `${normalizedBase}docs/${normalizedPath}`;
+      
+      console.log('Loading document from:', docPath); // Debug log
+      const response = await fetch(docPath);
       if (!response.ok) {
         console.error(`Failed to load documentation: ${response.status}`);
         throw new Error(`Failed to load documentation: ${response.status}`);
