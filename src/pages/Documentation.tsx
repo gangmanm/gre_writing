@@ -156,7 +156,7 @@ export const Documentation = () => {
 
   const loadDocument = async (path: string) => {
     try {
-      const response = await fetch(`/docs${path}`);
+      const response = await fetch(`${import.meta.env.BASE_URL}docs${path}`);
       if (!response.ok) {
         throw new Error(`Failed to load documentation: ${response.status}`);
       }

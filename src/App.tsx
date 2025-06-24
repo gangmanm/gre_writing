@@ -139,7 +139,7 @@ const StyledLink = styled(Link)`
 function App() {
   return (
     <RecoilRoot>
-      <Router>
+      <Router basename="/gre_writing">
         <AppContainer>
           <Header>
             <LogoContainer>
