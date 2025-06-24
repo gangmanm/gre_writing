@@ -11,6 +11,7 @@ import type { Components } from 'react-markdown';
 import { InfoBox } from '../components/markdown';
 import { JsonList } from '../components/JsonList';
 import LinkBlock from '../components/markdown/LinkBlock';
+import { Essay } from '../components/Essay';
 import { FaBars, FaList } from 'react-icons/fa';
 import styled from '@emotion/styled';
 
@@ -35,9 +36,9 @@ const docSections: DocSection[] = [
     path: '/issue-task.md',
     subsections: [
       {
-        id: 'issue-examples',
-        title: 'Sample Essays',
-        path: '/issue-examples.md'
+        id: 'task1',
+        title: 'Task1',
+        path: '/issue/task1.md'
       }
     ]
   },
@@ -124,12 +125,21 @@ const processMarkdown = (text: string): string => {
     }
   });
 
-  // Process @info, @warning, @tip tags
-  processed = processed.replace(/@(info|warning|tip)\[(.*?)\]([\s\S]*?)@end/g, (_, type, title, content) => {
+  // Process @info, @warning, @tip, @essay tags
+  processed = processed.replace(/@(info|warning|tip|essay)\[(.*?)\]([\s\S]*?)@end/g, (_, type, title, content) => {
+    if (type === 'essay') {
+      try {
+        const data = JSON.parse(title);
+        return `<div class="info-essay" data-task="${data.taskNumber}" data-topic="${data.topic}">${content.trim()}</div>`;
+      } catch (e) {
+        console.error('Failed to parse essay data:', e);
+        return _;
+      }
+    }
     return `<div class="info-${type} ${title}">${content.trim()}</div>`;
   });
 
-  return processed;
+  return processed; 
 };
 
 export const DocLayout = styled.div<{ theme: any }>`
@@ -375,7 +385,7 @@ export const Documentation = () => {
         if (infoMatch) {
           const [_, type, title, content] = infoMatch;
           return (
-            <InfoBox type={type as 'info' | 'warning' | 'tip'} title={title}>
+            <InfoBox type={type as 'info' | 'warning' | 'tip' | 'essay'} title={title}>
               {content.trim()}
             </InfoBox>
           );
@@ -392,6 +402,14 @@ export const Documentation = () => {
           console.error('Failed to parse link data:', e);
           return null;
         }
+      }
+      if (className === 'info-essay') {
+        return (
+          <InfoBox type="essay" title={`Essay Task ${props['data-task']}`}>
+            <p><strong>Topic:</strong> {props['data-topic']}</p>
+            {children}
+          </InfoBox>
+        );
       }
       const match = /^info-(info|warning|tip)\s*(.*)$/.exec(className || '');
       if (match) {
@@ -439,18 +457,6 @@ export const Documentation = () => {
             className="doc-content"
             style={{
               paddingLeft: (() => {
-                // Check section depth
-                for (const section of docSections) {
-                  if (section.id === currentPath) return '1.5rem';
-                  if (section.subsections) {
-                    for (const subsection of section.subsections) {
-                      if (subsection.id === currentPath) return '3rem';
-                      if (subsection.subsections?.some(sub => sub.id === currentPath)) {
-                        return '4.5rem';
-                      }
-                    }
-                  }
-                }
                 return '1.5rem';
               })()
             }}

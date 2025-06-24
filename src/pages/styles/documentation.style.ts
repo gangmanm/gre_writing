@@ -656,7 +656,6 @@ export const DocTitle = styled.h1<{ theme: any; depth?: number }>`
   font-size: 2rem;
   font-weight: 700;
   color: ${props => props.theme.text};
-  margin: 0 0 2rem ${props => (props.depth || 0) * 1}rem;
   padding-bottom: 1rem;
   border-bottom: 1px solid ${props => props.theme.border};
 `; 
