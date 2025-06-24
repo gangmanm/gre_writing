@@ -11,6 +11,7 @@ import * as S from './styles/documentation.style';
 import type { ComponentProps } from 'react';
 import type { Components } from 'react-markdown';
 import { InfoBox } from '../components/markdown';
+import { JsonList } from '../components/JsonList';
 import { FaBars, FaList } from 'react-icons/fa';
 
 interface DocSection {
@@ -319,6 +320,19 @@ export const Documentation = () => {
     h1: createHeadingComponent(S.MarkdownHeading1, theme),
     h2: createHeadingComponent(S.MarkdownHeading2, theme),
     h3: createHeadingComponent(S.MarkdownHeading3, theme),
+    p: ({ children, ...props }) => {
+      if (typeof children === 'string' && children.startsWith('@list[')) {
+        try {
+          const jsonStr = children.slice(children.indexOf('[') + 1, children.lastIndexOf(']'));
+          const data = JSON.parse(jsonStr);
+          return <JsonList {...data} />;
+        } catch (e) {
+          console.error('Failed to parse JSON list:', e);
+          return <p {...props}>{children}</p>;
+        }
+      }
+      return <p {...props}>{children}</p>;
+    },
     div: ({ className, children, ...props }) => {
       const match = /^info-(info|warning|tip)(?:\s+(.+))?$/.exec(className || '');
       if (match) {

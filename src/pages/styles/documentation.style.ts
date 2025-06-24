@@ -119,22 +119,101 @@ export const DocContainer = styled.main<{ theme: any }>`
   background-color: ${props => props.theme.background};
 `;
 
-export const DocContent = styled.div<{ theme: any }>`
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  overflow-y: scroll;
-  overflow-x: hidden;
-  -webkit-overflow-scrolling: touch;
-  overscroll-behavior: contain;
-  padding: 2rem 3rem;
-  
-  > div {
-    max-width: 900px;
-    margin: 0 auto;
-    color: ${props => props.theme.text};
+export const DocContent = styled.main<{ theme: any }>`
+  flex: 1;
+  padding: 2rem;
+  overflow-y: auto;
+  color: ${props => props.theme.text};
+  background-color: ${props => props.theme.background};
+  height: 100%;
+  box-sizing: border-box;
+
+  .list-container {
+    margin: 1.5rem 0;
+    padding: 1.5rem;
+    border-radius: 12px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    border: 1px solid #f0f0f0;
+    counter-reset: list-counter;
+  }
+
+  .list-title {
+    margin: 0 0 1.5rem 0;
+    color: #2c3e50;
+    font-size: 1.25rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+
+    &::before {
+      content: attr(data-icon);
+      font-size: 1.4rem;
+    }
+  }
+
+  .styled-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    > li {
+      position: relative;
+      padding-left: 2rem;
+      margin-bottom: 0.75rem;
+      color: #4a5568;
+      line-height: 1.6;
+      transition: all 0.2s ease-in-out;
+
+      &::before {
+        position: absolute;
+        left: 0;
+      }
+
+      &:hover {
+        transform: translateY(-1px);
+      }
+    }
+  }
+
+  .list-ordered > .styled-list > li::before {
+    content: counter(list-counter) ".";
+    counter-increment: list-counter;
+    color: #4299e1;
+    font-weight: 600;
+  }
+
+  .list-unordered > .styled-list > li::before {
+    content: "•";
+    color: #4299e1;
+    font-size: 1.5em;
+    line-height: 1;
+    top: -0.125em;
+  }
+
+  .nested-list {
+    list-style: none;
+    padding: 0;
+    margin: 0.5rem 0 0 0;
+
+    > li {
+      position: relative;
+      padding-left: 1.5rem;
+      margin: 0.4rem 0;
+      color: #718096;
+      font-size: 0.95rem;
+
+      &::before {
+        content: "•";
+        position: absolute;
+        left: 0;
+        color: #a0aec0;
+        font-size: 1.2em;
+        line-height: 1;
+        top: -0.125em;
+      }
+    }
   }
 
   @media (max-width: 1024px) {

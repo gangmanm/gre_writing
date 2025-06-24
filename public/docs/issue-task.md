@@ -1,82 +1,140 @@
-# GRE Issue Task Guide
+# Issue Task 작성 가이드
 
-The Issue task presents a claim about a general topic and asks you to write a response discussing the extent to which you agree or disagree with that claim.
+Issue Task는 주어진 주제에 대해 자신의 입장을 논리적으로 전개하는 에세이입니다.
 
-## Task Overview
+@info[기본 정보]
+- 시간: 30분
+- 분량: 500-600단어 권장
+- 평가: 0-6점 척도
+- 형식: 서론, 본론(2-3개 단락), 결론
 
-In this task, you will:
-- Analyze a given statement or claim
-- Take a position on the issue
-- Support your position with relevant reasons and examples
-- Write a well-organized essay within 30 minutes
+## 문제 유형 이해
 
-## Key Components
+@tip[주요 출제 주제]
+- 교육/학습 방법
+- 기술과 사회
+- 정부 정책
+- 문화와 전통
+- 경제와 비즈니스
+- 과학과 연구
+- 환경과 개발
 
-### 1. Understanding the Prompt
+## 답안 작성 단계
 
-Every Issue task includes:
-- A statement expressing a position on an issue
-- Instructions asking you to discuss the extent to which you agree or disagree
-- Notes about developing and supporting your position
+### 1. 계획 단계 (5분)
+- 주제 분석
+- 입장 결정
+- 논점 구성
+- 예시 선정
 
-### 2. Planning Your Response
+@warning[계획 단계 주의사항]
+- 시간을 너무 많이 쓰지 않기
+- 너무 많은 논점을 다루지 않기
+- 구체적인 예시 최소 2-3개 준비
+- 반대 의견도 고려하기
 
-Before writing, you should:
-- Carefully read and analyze the statement
-- Decide on your position
-- Brainstorm supporting examples
-- Outline your essay structure
+### 2. 작성 단계 (20분)
 
-### 3. Writing Your Essay
+#### 서론 (2-3문장)
+- 주제 소개
+- 자신의 입장 명시
+- 주요 논점 제시
 
-A strong Issue essay typically includes:
+@tip[효과적인 서론 작성법]
+- 흥미로운 도입문으로 시작
+- 명확한 입장 표명
+- 간단하고 명료하게 작성
+- 전체 구조 암시
 
-#### Introduction
-- Clear statement of your position
-- Brief overview of your main points
+#### 본론 (2-3단락)
+각 단락:
+- 주제문(Topic Sentence)
+- 구체적 예시/근거
+- 설명/분석
+- 주장과의 연결
 
-#### Body Paragraphs
-- Topic sentence for each paragraph
-- Specific examples and evidence
-- Clear explanation of how examples support your position
-- Consideration of counterarguments
+@info[본론 작성 전략]
+1. 첫 번째 단락
+   - 가장 강력한 논점
+   - 명확한 예시
+   - 상세한 분석
 
-#### Conclusion
-- Restatement of your position
-- Summary of main points
-- Broader implications or significance
+2. 두 번째 단락
+   - 보완적 논점
+   - 다른 관점 제시
+   - 추가 예시 활용
 
-## Common Pitfalls to Avoid
+3. 반론 고려 (선택)
+   - 예상 반론 제시
+   - 효과적 반박
+   - 논지 강화
 
-1. **Taking an Extreme Position**
-   - Avoid absolute agreements or disagreements
-   - Consider nuances and qualifications
+#### 결론 (2-3문장)
+- 주요 논점 요약
+- 입장 재확인
+- 시사점/전망 제시
 
-2. **Weak Examples**
-   - Don't rely on personal anecdotes alone
-   - Use specific, relevant examples from various fields
+### 3. 검토 단계 (5분)
 
-3. **Poor Organization**
-   - Don't write without a clear structure
-   - Avoid jumping between ideas randomly
+@warning[주요 체크 포인트]
+- 문법/철자 오류
+- 논리적 일관성
+- 예시의 적절성
+- 문장 연결의 자연스러움
+- 전체적 흐름
 
-4. **Ignoring Counterarguments**
-   - Don't dismiss opposing viewpoints
-   - Address potential objections to strengthen your argument
+## 고득점 전략
 
-## Tips for Success
+@tip[채점자의 기대사항]
+1. 분석력
+   - 깊이 있는 사고
+   - 다각적 접근
+   - 논리적 전개
 
-1. **Time Management**
-   - Spend 5 minutes planning
-   - Write for 20 minutes
-   - Save 5 minutes for review
+2. 구성력
+   - 체계적 구조
+   - 자연스러운 흐름
+   - 명확한 단락 구분
 
-2. **Language Use**
-   - Use clear, precise language
-   - Vary sentence structure
-   - Maintain formal academic tone
+3. 언어 사용
+   - 정확한 어휘
+   - 다양한 문장 구조
+   - 학술적 톤 유지
 
-3. **Development**
-   - Support each point with specific examples
-   - Explain the significance of your examples
-   - Connect ideas logically 
+## 자주 하는 실수
+
+@warning[피해야 할 실수]
+1. 구조적 문제
+   - 논점 없는 나열식 서술
+   - 예시 없는 추상적 주장
+   - 비논리적 전개
+
+2. 내용적 문제
+   - 주제와 무관한 내용
+   - 개인적 경험만 나열
+   - 근거 없는 주장
+
+3. 형식적 문제
+   - 문법/철자 오류 과다
+   - 단순한 문장 구조
+   - 비격식체 사용
+
+## 연습 방법
+
+@info[효과적인 연습 방법]
+1. 일일 연습
+   - 타이머 설정
+   - 실제 시험 환경 조성
+   - 타이핑 연습
+
+2. 주간 목표
+   - 2-3개 주제 완성
+   - 예시 자료 축적
+   - 피드백 반영
+
+3. 장기 계획
+   - 다양한 주제 경험
+   - 어휘/표현 확장
+   - 모범 답안 분석
+
+이 가이드를 참고하여 체계적으로 준비하시면 Issue Task에서 좋은 점수를 받으실 수 있습니다. 

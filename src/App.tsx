@@ -1,9 +1,11 @@
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
 import styled from '@emotion/styled';
 import { FaBook, FaHome, FaFileAlt } from 'react-icons/fa';
 import Home from './pages/Home';
 import { Documentation } from './pages/Documentation';
+import { GlobalStyle } from './styles/GlobalStyle';
 
 const AppContainer = styled.div`
   width: 100vw;
@@ -140,6 +142,7 @@ function App() {
   return (
     <RecoilRoot>
       <Router basename="/gre_writing">
+        <GlobalStyle />
         <AppContainer>
           <Header>
             <LogoContainer>
