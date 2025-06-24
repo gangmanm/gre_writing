@@ -176,15 +176,17 @@ export const Documentation = () => {
 
   const loadDocument = async (path: string) => {
     try {
-      const response = await fetch(`${import.meta.env.BASE_URL}docs${path}`);
+      const baseUrl = import.meta.env.VITE_BASE_URL || '/';
+      const response = await fetch(`${baseUrl}docs${path}`);
       if (!response.ok) {
+        console.error(`Failed to load documentation: ${response.status}`);
         throw new Error(`Failed to load documentation: ${response.status}`);
       }
       const text = await response.text();
       setMarkdown(text);
     } catch (error) {
       console.error('Error loading documentation:', error);
-      setMarkdown('# Error\nFailed to load documentation.');
+      setMarkdown('# Error\nFailed to load documentation. Please try again later.');
     }
   };
 

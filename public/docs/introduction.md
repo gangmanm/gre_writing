@@ -1,27 +1,28 @@
-# Introduction to GRE Writing
+# Welcome to GRE Writing Guide
 
-Welcome to the comprehensive guide for mastering the GRE Writing section. This guide will help you understand the requirements, strategies, and techniques needed to excel in both the Issue and Argument tasks.
+This comprehensive guide will help you master the GRE Analytical Writing section. Whether you're preparing for the Issue Task or the Argument Task, you'll find detailed strategies, examples, and practice materials to improve your writing skills.
 
-@info[시험 구성]
-The GRE Writing section consists of two distinct tasks:
-- **Analyze an Issue Task** (30 minutes)
-- **Analyze an Argument Task** (30 minutes)
+## What to Expect
 
-Each task measures different aspects of your analytical writing skills and requires a unique approach.
+The GRE Analytical Writing section consists of two tasks:
 
-@warning[중요성]
-The GRE Writing section is crucial for several reasons:
+1. **Analyze an Issue Task** (30 minutes)
+   - Present your perspective on a given issue
+   - Support your position with relevant examples and reasoning
 
-1. **Academic Readiness**: It demonstrates your ability to articulate complex ideas clearly and effectively.
-2. **Critical Thinking**: Shows your capacity to analyze arguments and present logical reasoning.
-3. **Graduate School Applications**: Many programs use it to evaluate your writing and analytical abilities.
+2. **Analyze an Argument Task** (30 minutes)
+   - Evaluate the logical soundness of a given argument
+   - Identify and explain the argument's assumptions and flaws
 
-@tip[가이드 활용법]
-This guide is organized into several sections:
+## How to Use This Guide
 
-1. **Issue Task**: Learn how to analyze and respond to general topic statements
-2. **Argument Task**: Master the skills needed to evaluate logical arguments
-3. **Scoring Guide**: Understand how your essays will be evaluated
-4. **Practice Tips**: Get practical advice for improving your writing
+Navigate through the sections using the sidebar menu:
 
-Navigate through the sections using the sidebar menu, and use the table of contents to find specific topics within each section. 
+- Start with the Overview to understand the basics
+- Learn specific strategies for each task type
+- Review sample essays to understand scoring criteria
+- Practice with example prompts and get feedback
+
+:::info
+Remember that consistent practice and understanding the scoring criteria are key to improving your GRE Writing score.
+::: 
