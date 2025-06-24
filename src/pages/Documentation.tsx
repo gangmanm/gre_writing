@@ -98,7 +98,17 @@ const extractHeaders = (markdown: string): TocItem[] => {
 const scrollToHeader = (id: string) => {
   const element = document.getElementById(id);
   if (element) {
-    element.scrollIntoView({ behavior: 'smooth' });
+    const container = document.querySelector('.doc-content');
+    if (container) {
+      const elementTop = element.offsetTop;
+      const containerTop = container.scrollTop;
+      const targetScroll = elementTop - 80; // 헤더 높이만큼 오프셋
+
+      container.scrollTo({
+        top: targetScroll,
+        behavior: 'smooth'
+      });
+    }
   }
 };
 
@@ -130,6 +140,16 @@ export const Documentation = () => {
   const [isMobileTocOpen, setIsMobileTocOpen] = useState(false);
 
   const theme = themeMode === 'light' ? lightTheme : darkTheme;
+
+  useEffect(() => {
+    // Add overflow hidden to body when component mounts
+    document.body.style.overflow = 'hidden';
+    
+    // Cleanup function to restore overflow when component unmounts
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, []);
 
   const toggleTheme = () => {
     setThemeMode(prev => prev === 'light' ? 'dark' : 'light');
@@ -205,15 +225,18 @@ export const Documentation = () => {
 
       const observer = new IntersectionObserver(
         (entries) => {
-          entries.forEach(entry => {
-            if (entry.isIntersecting) {
-              setActiveHeader(entry.target.id);
-            }
-          });
+          // Find the most visible entry
+          const visibleEntries = entries.filter(entry => entry.isIntersecting);
+          if (visibleEntries.length > 0) {
+            const mostVisible = visibleEntries.reduce((prev, current) => {
+              return (current.intersectionRatio > prev.intersectionRatio) ? current : prev;
+            });
+            setActiveHeader(mostVisible.target.id);
+          }
         },
         {
-          threshold: 0.5,
-          rootMargin: '-100px 0px -66% 0px'
+          rootMargin: '-80px 0px -80% 0px',
+          threshold: [0, 0.25, 0.5, 0.75, 1]
         }
       );
 
@@ -314,14 +337,18 @@ export const Documentation = () => {
             {renderNavItems(docSections)}
           </S.NavList>
         </S.Sidebar>
-        <S.DocContainer theme={theme} className="markdown-content">
-          <ReactMarkdown
-            remarkPlugins={[remarkGfm, remarkInfoBox]}
-            rehypePlugins={[rehypeRaw]}
-            components={components}
-          >
-            {markdown}
-          </ReactMarkdown>
+        <S.DocContainer theme={theme}>
+          <S.DocContent theme={theme} className="doc-content">
+            <div>
+              <ReactMarkdown
+                remarkPlugins={[remarkGfm, remarkInfoBox]}
+                rehypePlugins={[rehypeRaw]}
+                components={components}
+              >
+                {markdown}
+              </ReactMarkdown>
+            </div>
+          </S.DocContent>
         </S.DocContainer>
         <S.TableOfContents theme={theme}>
           <h3>Table of Contents</h3>

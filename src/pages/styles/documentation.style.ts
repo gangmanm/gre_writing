@@ -2,38 +2,28 @@ import styled from '@emotion/styled';
 
 export const DocLayout = styled.div<{ theme: any }>`
   display: grid;
-  grid-template-columns: 280px 1fr 250px;
+  grid-template-columns: 280px minmax(0, 1fr) 250px;
   background-color: ${props => props.theme.background};
   position: fixed;
   top: 60px;
   left: 0;
   right: 0;
   bottom: 0;
-  height: calc(100vh - 60px);
   overflow: hidden;
-  box-sizing: border-box;
 
   @media (max-width: 1024px) {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    height: calc(100vh - 110px);
-    min-height: calc(100vh - 110px);
-    position: fixed;
+    grid-template-columns: 1fr;
     top: 50px;
-    overflow-x: hidden;
-    overflow-y: hidden;
-    padding-top: 0;
+    bottom: 60px;
   }
 `;
 
 export const Sidebar = styled.nav<{ theme: any }>`
   background-color: ${props => props.theme.sidebar};
   border-right: 1px solid ${props => props.theme.border};
-  padding: 1.5rem;
   overflow-y: auto;
-  height: 100%;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
 
   @media (max-width: 1024px) {
     display: none;
@@ -69,10 +59,7 @@ export const ThemeToggle = styled.button<{ theme: any }>`
 `;
 
 export const NavList = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  padding: 1rem;
+  padding: 1.5rem;
 `;
 
 export const NavItem = styled.div<{ active: boolean; theme: any; level: number }>`
@@ -128,204 +115,50 @@ export const SubsectionContainer = styled.div<{ isOpen: boolean }>`
 
 export const DocContainer = styled.main<{ theme: any }>`
   position: relative;
-  padding: 2rem 3rem 10rem 2rem;
-  color: ${props => props.theme.text};
+  overflow: hidden;
+  background-color: ${props => props.theme.background};
+`;
+
+export const DocContent = styled.div<{ theme: any }>`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   overflow-y: scroll;
-  height: 100%;
-  max-width: calc(100vw - 600px);
-  margin: 0 auto;
-  width: 100%;
+  overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
-  display: flex;
-  flex-direction: column;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-  box-sizing: border-box;
+  overscroll-behavior: contain;
+  padding: 2rem 3rem;
+  
+  > div {
+    max-width: 900px;
+    margin: 0 auto;
+    color: ${props => props.theme.text};
+  }
 
   @media (max-width: 1024px) {
-    max-width: 100%;
-    width: 100%;
     padding: 1rem;
-    padding-bottom: 80px;
-    height: 100%;
-    overflow-x: hidden;
-    overflow-y: auto;
-    margin: 0;
-    -webkit-overflow-scrolling: touch;
+    
+    > div {
+      max-width: 100%;
+    }
   }
 
   &::-webkit-scrollbar {
-    display: none;
+    width: 8px;
   }
 
-  /* 헤딩 스타일 */
-  h1, h2, h3 {
-    width: 100%;
-    box-sizing: border-box;
-    white-space: normal;
-    overflow-wrap: break-word;
-    word-wrap: break-word;
-    word-break: normal;
+  &::-webkit-scrollbar-track {
+    background: transparent;
   }
 
-  h1 {
-    font-size: clamp(1.8rem, 5vw, 2.5rem);
-    word-break: break-word;
-    overflow-wrap: break-word;
-  }
-
-  h2 {
-    font-size: clamp(1.4rem, 4vw, 1.8rem);
-  }
-
-  h3 {
-    font-size: clamp(1.2rem, 3.5vw, 1.4rem);
-  }
-
-  p, ul, ol {
-    font-size: clamp(0.9rem, 3vw, 1rem);
-    max-width: 100%;
-    overflow-wrap: break-word;
-    word-wrap: break-word;
-    word-break: break-word;
-    hyphens: auto;
-  }
-
-  /* Add styles for InfoBox components */
-  div[class^="info-"] {
-    height: auto;
-    min-height: fit-content;
-    overflow: visible;
-    margin: 1.5rem 0;
-    flex-shrink: 0;
-    max-width: 100%;
-    border-radius: 8px;
-    padding: 1.2rem;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-
-    @media (max-width: 1024px) {
-      margin: 1rem 0;
-      padding: 1rem;
-      width: 100%;
-      box-sizing: border-box;
-      border-radius: 6px;
-    }
-
-    /* InfoBox 헤더 스타일 */
-    & > div:first-of-type {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      margin-bottom: 0.75rem;
-      font-weight: 600;
-      font-size: 1rem;
-      width: 100%;
-      flex-wrap: wrap;
-
-      @media (max-width: 1024px) {
-        font-size: 0.95rem;
-        margin-bottom: 0.5rem;
-      }
-
-      svg {
-        font-size: 1.2rem;
-        flex-shrink: 0;
-
-        @media (max-width: 1024px) {
-          font-size: 1.1rem;
-        }
-      }
-    }
-
-    /* InfoBox 내용 스타일 */
-    & > div:last-of-type {
-      width: 100%;
-      
-      p, ul, ol {
-        margin: 0.5rem 0;
-        font-size: 0.95rem;
-        line-height: 1.6;
-        width: 100%;
-        box-sizing: border-box;
-        white-space: normal;
-        overflow-wrap: break-word;
-        word-wrap: break-word;
-        word-break: normal;
-
-        @media (max-width: 1024px) {
-          font-size: 0.9rem;
-          line-height: 1.5;
-        }
-
-        &:first-of-type { margin-top: 0; }
-        &:last-of-type { margin-bottom: 0; }
-      }
-    }
-  }
-
-  h1, h2, h3, p, ul, ol {
-    max-width: 100%;
-  }
-
-  /* Base text styles */
-  p {
-    margin: 1rem 0;
-    width: 100%;
-    box-sizing: border-box;
-    white-space: normal;
-    overflow-wrap: break-word;
-    word-wrap: break-word;
-    word-break: normal;
-
-    @media (max-width: 1024px) {
-      margin: 0.8rem 0;
-    }
-  }
-
-  ul, ol {
-    padding-left: 1.5rem;
-    margin: 1rem 0;
-    width: auto;
-    box-sizing: border-box;
-    
-    @media (max-width: 1024px) {
-      padding-left: 1.2rem;
-    }
-    
-    li {
-      margin: 0.5rem 0;
-      line-height: 1.6;
-      width: 100%;
-      box-sizing: border-box;
-      white-space: normal;
-      overflow-wrap: break-word;
-      word-wrap: break-word;
-      word-break: normal;
-
-      @media (max-width: 1024px) {
-        margin: 0.4rem 0;
-      }
-    }
-  }
-
-  strong {
-    color: ${props => props.theme.primary};
-    font-weight: 600;
-  }
-
-  a {
-    color: ${props => props.theme.primary};
-    text-decoration: none;
-    display: inline-block;
-    max-width: 100%;
-    overflow-wrap: break-word;
-    word-wrap: break-word;
-    word-break: break-word;
+  &::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
     
     &:hover {
-      text-decoration: underline;
+      background: rgba(0, 0, 0, 0.3);
     }
   }
 `;
@@ -333,73 +166,58 @@ export const DocContainer = styled.main<{ theme: any }>`
 export const TableOfContents = styled.aside<{ theme: any }>`
   background-color: ${props => props.theme.sidebar};
   border-left: 1px solid ${props => props.theme.border};
-  padding: 1.5rem;
-  height: 100%;
   overflow-y: auto;
-  width: 250px;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  padding: 1.5rem;
 
   @media (max-width: 1024px) {
     display: none;
   }
 
   h3 {
-    color: ${props => props.theme.text};
-    margin-bottom: 1rem;
+    margin: 0 0 1rem 0;
     font-size: 1rem;
     font-weight: 600;
+    color: ${props => props.theme.text};
   }
 
   ul {
     list-style: none;
     padding: 0;
     margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
+  }
 
-    li {
-      width: 100%;
+  li {
+    margin: 0.5rem 0;
 
-      a {
-        color: ${props => props.theme.text};
-        text-decoration: none;
-        font-size: 0.95rem;
-        opacity: 0.8;
-        transition: all 0.2s ease;
-        display: block;
-        padding: 0.5rem;
-        width: 100%;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        border-radius: 6px;
+    a {
+      color: ${props => props.theme.text};
+      text-decoration: none;
+      font-size: 0.95rem;
+      opacity: 0.8;
+      transition: all 0.2s ease;
+      display: block;
+      padding: 0.5rem;
+      border-radius: 6px;
 
-        &:hover {
-          opacity: 1;
-          color: ${props => props.theme.primary};
-          background-color: ${props => props.theme.hover};
-        }
-
-        &.active {
-          color: ${props => props.theme.primary};
-          font-weight: 600;
-          opacity: 1;
-          background-color: ${props => props.theme.hover};
-        }
+      &:hover {
+        opacity: 1;
+        color: ${props => props.theme.primary};
+        background-color: ${props => props.theme.hover};
       }
 
-      &.h1 { 
-        a { padding-left: 0.5rem; }
-      }
-      &.h2 { 
-        a { padding-left: 1.2rem; }
-      }
-      &.h3 { 
-        a { padding-left: 1.9rem; }
+      &.active {
+        color: ${props => props.theme.primary};
+        font-weight: 600;
+        opacity: 1;
+        background-color: ${props => props.theme.hover};
       }
     }
+
+    &.h1 a { padding-left: 0.5rem; }
+    &.h2 a { padding-left: 1.2rem; }
+    &.h3 a { padding-left: 1.9rem; }
   }
 `;
 
