@@ -2,8 +2,8 @@ import styled from '@emotion/styled';
 
 export const DocLayout = styled.div<{ theme: any }>`
   display: grid;
-  grid-template-columns: 250px minmax(0, 1fr) 220px;
-  background-color: ${props => props.theme.background};
+  grid-template-columns: 250px minmax(0, 1fr);
+  background-color: ${(props: { theme: any }) => props.theme.background};
   position: fixed;
   top: 60px;
   left: 0;
@@ -14,7 +14,8 @@ export const DocLayout = styled.div<{ theme: any }>`
   @media (max-width: 1024px) {
     grid-template-columns: 1fr;
     top: 50px;
-    bottom: 60px;
+    bottom: 0;
+    height: calc(100vh - 50px);
   }
 `;
 
@@ -65,7 +66,7 @@ export const NavList = styled.div`
 
 export const NavItem = styled.div<{ active: boolean; theme: any; level: number }>`
   padding: 0.4rem;
-  padding-left: ${props => `${props.level}rem`};
+  padding-left: ${props => `${props.level * 1.5}rem`};
   cursor: pointer;
   border-radius: 4px;
   background-color: ${props => props.active ? props.theme.hover : 'transparent'};
@@ -130,6 +131,20 @@ export const DocContent = styled.main<{ theme: any }>`
   box-sizing: border-box;
   font-size: 0.9rem;
   line-height: 1.6;
+
+  @media (max-width: 1024px) {
+    padding: 1rem;
+    padding-bottom: 60px;
+    height: 100%;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    
+    > div {
+      max-width: 100%;
+      padding-bottom: 0;
+      margin-bottom: 0;
+    }
+  }
 
   h1 {
     font-size: 1.6rem;
@@ -234,11 +249,129 @@ export const DocContent = styled.main<{ theme: any }>`
     }
   }
 
-  @media (max-width: 1024px) {
-    padding: 1rem;
+  .styled-link {
+    color: #228be6;
+    text-decoration: none;
+    position: relative;
     
-    > div {
-      max-width: 100%;
+    &:hover {
+      color: #1971c2;
+      text-decoration: none;
+    }
+    
+    &::after {
+      content: ${props => props.theme.mode === 'dark' ? '"↗"' : '"↗"'};
+      display: inline-block;
+      margin-left: 4px;
+      font-size: 0.8em;
+      opacity: 0.7;
+    }
+  }
+
+  .link-block {
+    margin: 1.5rem 0;
+    border: 1.5px solid ${props => props.theme.border};
+    border-radius: 12px;
+    background: ${props => props.theme.mode === 'dark' ? 'rgba(35, 39, 47, 0.5)' : '#f8fafc'};
+    box-shadow: 0 4px 16px rgba(34, 139, 230, 0.07);
+    transition: all 0.2s ease-in-out;
+    overflow: hidden;
+    display: block;
+    position: relative;
+
+    &:hover {
+      border-color: ${props => props.theme.primary};
+      background: ${props => props.theme.mode === 'dark' ? 'rgba(35, 39, 47, 0.8)' : '#fff'};
+      box-shadow: 0 6px 24px rgba(34, 139, 230, 0.13);
+      transform: translateY(-1px);
+    }
+
+    .styled-link {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      padding: 1.2rem 1.5rem;
+      color: inherit;
+      text-decoration: none;
+      background: none;
+      width: 100%;
+      position: relative;
+
+      &:hover {
+        text-decoration: none;
+      }
+
+      &::before {
+        content: '🔗';
+        font-size: 1.2rem;
+        opacity: 0.8;
+        margin-top: 0.2rem;
+      }
+    }
+
+    .link-title {
+      color: ${props => props.theme.primary};
+      font-weight: 600;
+      font-size: 1.15rem;
+      margin-bottom: 0.3rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+
+      &::after {
+        content: attr(data-external);
+        font-size: 1rem;
+        opacity: 0.7;
+        margin-left: 0.2rem;
+      }
+    }
+
+    .link-description {
+      color: ${props => props.theme.text};
+      font-size: 0.97rem;
+      opacity: 0.85;
+      margin-top: 0.1rem;
+      line-height: 1.5;
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(to right, ${props => props.theme.primary}, ${props => props.theme.primary}40);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    &:hover::after {
+      opacity: 1;
+    }
+  }
+
+  .link-block-wrapper {
+    margin: 1rem 0;
+  }
+
+  p {
+    .styled-link {
+      color: ${props => props.theme.primary};
+      text-decoration: none;
+      position: relative;
+      
+      &:hover {
+        text-decoration: underline;
+      }
+      
+      &::after {
+        content: ${props => props.theme.mode === 'dark' ? '"↗"' : '"↗"'};
+        display: inline-block;
+        margin-left: 4px;
+        font-size: 0.8em;
+        opacity: 0.7;
+      }
     }
   }
 
@@ -387,46 +520,42 @@ export const MobileNav = styled.div<{ theme: any }>`
   @media (max-width: 1024px) {
     display: flex;
     position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 60px;
-    background-color: ${props => props.theme.background};
-    border-top: 1px solid ${props => props.theme.border};
-    padding: 0 1rem;
-    justify-content: space-around;
-    align-items: center;
-    z-index: 100;
-    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+    bottom: 16px;
+    right: 16px;
+    z-index: 1000;
   }
 `;
 
 export const MobileNavButton = styled.button<{ theme: any }>`
-  background: none;
+  background-color: ${props => props.theme.primary};
   border: none;
-  color: ${props => props.theme.text};
-  padding: 0.5rem;
+  color: white;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
   cursor: pointer;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 0.25rem;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  transition: transform 0.2s, box-shadow 0.2s;
 
   svg {
-    font-size: 1.25rem;
-  }
-
-  span {
-    font-size: 0.75rem;
+    font-size: 1.1rem;
   }
 
   &:hover {
-    color: ${props => props.theme.primary};
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   }
 
-  &.active {
-    color: ${props => props.theme.primary};
-    background-color: ${props => props.theme.hover};
+  &:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  }
+
+  span {
+    display: none;
   }
 `;
 
@@ -485,7 +614,7 @@ export const MobileSidebar = styled.div<{ theme: any; isOpen: boolean }>`
   position: fixed;
   top: 50px;
   left: 0;
-  bottom: 60px;
+  bottom: 0;
   width: 100%;
   background-color: ${props => props.theme.background};
   z-index: 99;
@@ -498,6 +627,7 @@ export const MobileSidebar = styled.div<{ theme: any; isOpen: boolean }>`
     width: 75%;
     max-width: 360px;
     border-right: 1px solid ${props => props.theme.border};
+    height: calc(100vh - 50px);
   }
 `;
 
@@ -520,4 +650,13 @@ export const MobileToc = styled.div<{ theme: any; isOpen: boolean }>`
     max-width: 360px;
     border-left: 1px solid ${props => props.theme.border};
   }
+`;
+
+export const DocTitle = styled.h1<{ theme: any; depth?: number }>`
+  font-size: 2rem;
+  font-weight: 700;
+  color: ${props => props.theme.text};
+  margin: 0 0 2rem ${props => (props.depth || 0) * 1}rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid ${props => props.theme.border};
 `; 

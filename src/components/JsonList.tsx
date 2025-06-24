@@ -18,7 +18,6 @@ interface JsonListProps {
 const ListContainer = styled.div`
   margin: 1.5rem 0;
   padding: 1.5rem;
-  background: #f8f9fa;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 `;
@@ -42,7 +41,7 @@ const ListHeader = styled.div`
 `;
 
 const ListItemContainer = styled.div<{ depth: number }>`
-  margin-left: ${props => props.depth * 1.5}rem;
+  margin-left: ${props => (props.depth + 1) * 1.5}rem;
   margin-bottom: 0.5rem;
   position: relative;
 

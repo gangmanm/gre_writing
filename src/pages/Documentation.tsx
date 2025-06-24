@@ -2,16 +2,15 @@ import React, { useEffect, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import rehypeRaw from 'rehype-raw';
-import remarkInfoBox from '../utils/remarkInfoBox';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { themeState, lightTheme, darkTheme } from '../state/themeState';
-import { MdLightMode, MdDarkMode } from 'react-icons/md';
 import * as S from './styles/documentation.style';
 import type { ComponentProps } from 'react';
 import type { Components } from 'react-markdown';
 import { InfoBox } from '../components/markdown';
 import { JsonList } from '../components/JsonList';
+import LinkBlock from '../components/markdown/LinkBlock';
 import { FaBars, FaList } from 'react-icons/fa';
 import styled from '@emotion/styled';
 
@@ -19,37 +18,22 @@ interface DocSection {
   id: string;
   title: string;
   path: string;
-  subsections?: DocSection[];
+  subsections?: (DocSection & {
+    subsections?: DocSection[];
+  })[];
 }
 
 const docSections: DocSection[] = [
   {
-    id: 'introduction',
-    title: 'Introduction',
-    path: '/introduction.md',
-    subsections: [
-      {
-        id: 'overview',
-        title: 'Overview',
-        path: '/overview.md'
-      },
-      {
-        id: 'getting-started',
-        title: 'Getting Started',
-        path: '/getting-started.md'
-      }
-    ]
+    id: 'GRE 라이팅 이란',
+    title: 'GRE 라이팅 개요',
+    path: '/introduction.md'
   },
   {
     id: 'issue-task',
     title: 'Issue Task',
     path: '/issue-task.md',
     subsections: [
-      {
-        id: 'issue-strategies',
-        title: 'Writing Strategies',
-        path: '/issue-strategies.md'
-      },
       {
         id: 'issue-examples',
         title: 'Sample Essays',
@@ -128,6 +112,26 @@ const createHeadingComponent = (
   };
 };
 
+const processMarkdown = (text: string): string => {
+  // Process @link tags
+  let processed = text.replace(/@link\[{(.+?)}\]/g, (match, jsonStr) => {
+    try {
+      const data = JSON.parse(`{${jsonStr}}`);
+      return `<div class="link-block-wrapper" data-link='${JSON.stringify(data)}'></div>`;
+    } catch (e) {
+      console.error('Failed to parse link JSON:', e);
+      return match;
+    }
+  });
+
+  // Process @info, @warning, @tip tags
+  processed = processed.replace(/@(info|warning|tip)\[(.*?)\]([\s\S]*?)@end/g, (_, type, title, content) => {
+    return `<div class="info-${type} ${title}">${content.trim()}</div>`;
+  });
+
+  return processed;
+};
+
 export const DocLayout = styled.div<{ theme: any }>`
   display: grid;
   grid-template-columns: 250px minmax(0, 1fr);
@@ -142,7 +146,6 @@ export const DocLayout = styled.div<{ theme: any }>`
   @media (max-width: 1024px) {
     grid-template-columns: 1fr;
     top: 50px;
-    bottom: 60px;
   }
 `;
 
@@ -197,19 +200,17 @@ export const Documentation = () => {
   const loadDocument = async (path: string) => {
     try {
       const baseUrl = import.meta.env.VITE_BASE_URL || '/';
-      // Ensure proper path construction
       const normalizedBase = baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`;
       const normalizedPath = path.startsWith('/') ? path.slice(1) : path;
       const docPath = `${normalizedBase}docs/${normalizedPath}`;
       
-      console.log('Loading document from:', docPath); // Debug log
+      console.log('Loading document from:', docPath);
       const response = await fetch(docPath);
       if (!response.ok) {
-        console.error(`Failed to load documentation: ${response.status}`);
         throw new Error(`Failed to load documentation: ${response.status}`);
       }
       const text = await response.text();
-      setMarkdown(text);
+      setMarkdown(processMarkdown(text));
     } catch (error) {
       console.error('Error loading documentation:', error);
       setMarkdown('# Error\nFailed to load documentation. Please try again later.');
@@ -317,7 +318,8 @@ export const Documentation = () => {
           level={level}
         >
           <S.NavItemContainer>
-            {section.subsections && section.subsections.length > 0 && (
+            {((section.subsections && section.subsections.length > 0) || 
+              (section.subsections?.some(sub => sub.subsections && sub.subsections.length > 0))) && (
               <S.ToggleButton
                 isOpen={expandedSections.has(section.id)}
                 onClick={(e) => toggleSection(section.id, e)}
@@ -340,30 +342,83 @@ export const Documentation = () => {
     h2: createHeadingComponent(S.MarkdownHeading2, theme),
     h3: createHeadingComponent(S.MarkdownHeading3, theme),
     p: ({ children, ...props }) => {
-      if (typeof children === 'string' && children.startsWith('@list[')) {
-        try {
-          const jsonStr = children.slice(children.indexOf('[') + 1, children.lastIndexOf(']'));
-          const data = JSON.parse(jsonStr);
-          return <JsonList {...data} />;
-        } catch (e) {
-          console.error('Failed to parse JSON list:', e);
-          return <p {...props}>{children}</p>;
+      if (typeof children === 'string') {
+        // Check for @list pattern
+        if (children.startsWith('@list[')) {
+          try {
+            const jsonStr = children.slice(children.indexOf('[') + 1, children.lastIndexOf(']'));
+            const data = JSON.parse(jsonStr);
+            return <JsonList {...data} />;
+          } catch (e) {
+            console.error('Failed to parse JSON list:', e);
+            return <p {...props}>{children}</p>;
+          }
+        }
+        
+        // Check for @link pattern
+        if (children.includes('@link[')) {
+          try {
+            const linkRegex = /@link\[{(.+?)}\]/;
+            const match = children.match(linkRegex);
+            if (match) {
+              const jsonStr = match[1];
+              const data = JSON.parse(`{${jsonStr}}`);
+              return <LinkBlock {...data} theme={theme} />;
+            }
+          } catch (e) {
+            console.error('Failed to parse JSON link:', e);
+          }
+        }
+
+        // Check for info box pattern
+        const infoMatch = /@(info|warning|tip)\[(.*?)\]([\s\S]*?)@end/.exec(children);
+        if (infoMatch) {
+          const [_, type, title, content] = infoMatch;
+          return (
+            <InfoBox type={type as 'info' | 'warning' | 'tip'} title={title}>
+              {content.trim()}
+            </InfoBox>
+          );
         }
       }
       return <p {...props}>{children}</p>;
     },
-    div: ({ className, children, ...props }) => {
-      const match = /^info-(info|warning|tip)(?:\s+(.+))?$/.exec(className || '');
+    div: ({ className, children, ...props }: { className?: string; children?: React.ReactNode; [key: string]: any }) => {
+      if (className === 'link-block-wrapper' && props['data-link']) {
+        try {
+          const data = JSON.parse(props['data-link']);
+          return <LinkBlock {...data} theme={theme} />;
+        } catch (e) {
+          console.error('Failed to parse link data:', e);
+          return null;
+        }
+      }
+      const match = /^info-(info|warning|tip)\s*(.*)$/.exec(className || '');
       if (match) {
         const [, type, title] = match;
         return (
-          <InfoBox type={type as 'info' | 'warning' | 'tip'} title={title}>
+          <InfoBox type={type as 'info' | 'warning' | 'tip'} title={title.trim()}>
             {children}
           </InfoBox>
         );
       }
-      return <div {...props}>{children}</div>;
-    }
+      return <div className={className} {...props}>{children}</div>;
+    },
+    a: ({ href, children, ...props }) => {
+      if (props.className === 'styled-link') {
+        return <a {...props} href={href}>{children}</a>;
+      }
+      return (
+        <a 
+          href={href} 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="styled-link"
+        >
+          {children}
+        </a>
+      );
+    },
   };
 
   if (!markdown) {
@@ -379,10 +434,30 @@ export const Documentation = () => {
           </S.NavList>
         </S.Sidebar>
         <S.DocContainer theme={theme}>
-          <S.DocContent theme={theme} className="doc-content">
+          <S.DocContent 
+            theme={theme} 
+            className="doc-content"
+            style={{
+              paddingLeft: (() => {
+                // Check section depth
+                for (const section of docSections) {
+                  if (section.id === currentPath) return '1.5rem';
+                  if (section.subsections) {
+                    for (const subsection of section.subsections) {
+                      if (subsection.id === currentPath) return '3rem';
+                      if (subsection.subsections?.some(sub => sub.id === currentPath)) {
+                        return '4.5rem';
+                      }
+                    }
+                  }
+                }
+                return '1.5rem';
+              })()
+            }}
+          >
             <div>
               <ReactMarkdown
-                remarkPlugins={[remarkGfm, remarkInfoBox]}
+                remarkPlugins={[remarkGfm]}
                 rehypePlugins={[rehypeRaw]}
                 components={components}
               >

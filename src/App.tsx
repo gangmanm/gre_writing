@@ -23,6 +23,8 @@ const AppContainer = styled.div`
     position: fixed;
     top: 0;
     left: 0;
+    margin: 0;
+    padding: 0;
   }
 `;
 
@@ -34,11 +36,12 @@ const MainContent = styled.main`
   box-sizing: border-box;
 
   @media (max-width: 1024px) {
-    padding-top: 50px;
-    padding-bottom: 60px;
     overflow: hidden;
-    height: 100%;
+    height: calc(100vh - 50px);
     width: 100%;
+    padding: 0;
+    margin: 0;
+    margin-top: 50px;
   }
 `;
 
