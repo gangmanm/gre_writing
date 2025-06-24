@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 
 export const DocLayout = styled.div<{ theme: any }>`
   display: grid;
-  grid-template-columns: 280px minmax(0, 1fr) 250px;
+  grid-template-columns: 250px minmax(0, 1fr) 220px;
   background-color: ${props => props.theme.background};
   position: fixed;
   top: 60px;
@@ -24,6 +24,7 @@ export const Sidebar = styled.nav<{ theme: any }>`
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   overscroll-behavior: contain;
+  font-size: 0.9rem;
 
   @media (max-width: 1024px) {
     display: none;
@@ -59,17 +60,17 @@ export const ThemeToggle = styled.button<{ theme: any }>`
 `;
 
 export const NavList = styled.div`
-  padding: 1.5rem;
+  padding: 1rem;
 `;
 
 export const NavItem = styled.div<{ active: boolean; theme: any; level: number }>`
-  padding: 0.5rem;
-  padding-left: ${props => `${(props.level) * 1.2}rem`};
+  padding: 0.4rem;
+  padding-left: ${props => `${props.level}rem`};
   cursor: pointer;
-  border-radius: 6px;
+  border-radius: 4px;
   background-color: ${props => props.active ? props.theme.hover : 'transparent'};
   color: ${props => props.active ? props.theme.primary : props.theme.text};
-  font-size: ${props => props.level === 0 ? '1rem' : '0.95rem'};
+  font-size: ${props => props.level === 0 ? '0.9rem' : '0.85rem'};
 
   &:hover {
     background-color: ${props => props.theme.hover};
@@ -121,17 +122,38 @@ export const DocContainer = styled.main<{ theme: any }>`
 
 export const DocContent = styled.main<{ theme: any }>`
   flex: 1;
-  padding: 2rem;
+  padding: 1.5rem;
   overflow-y: auto;
   color: ${props => props.theme.text};
   background-color: ${props => props.theme.background};
   height: 100%;
   box-sizing: border-box;
+  font-size: 0.9rem;
+  line-height: 1.6;
+
+  h1 {
+    font-size: 1.6rem;
+    margin: 1.5rem 0 1rem;
+  }
+
+  h2 {
+    font-size: 1.3rem;
+    margin: 1.3rem 0 0.8rem;
+  }
+
+  h3 {
+    font-size: 1.1rem;
+    margin: 1.1rem 0 0.6rem;
+  }
+
+  p {
+    margin: 0.6rem 0;
+  }
 
   .list-container {
-    margin: 1.5rem 0;
-    padding: 1.5rem;
-    border-radius: 12px;
+    margin: 1rem 0;
+    padding: 1rem;
+    border-radius: 8px;
     background-color: #ffffff;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
     border: 1px solid #f0f0f0;
@@ -139,17 +161,17 @@ export const DocContent = styled.main<{ theme: any }>`
   }
 
   .list-title {
-    margin: 0 0 1.5rem 0;
+    margin: 0 0 1rem 0;
     color: #2c3e50;
-    font-size: 1.25rem;
+    font-size: 1.1rem;
     font-weight: 600;
     display: flex;
     align-items: center;
-    gap: 0.75rem;
+    gap: 0.5rem;
 
     &::before {
       content: attr(data-icon);
-      font-size: 1.4rem;
+      font-size: 1.2rem;
     }
   }
 
@@ -160,19 +182,15 @@ export const DocContent = styled.main<{ theme: any }>`
 
     > li {
       position: relative;
-      padding-left: 2rem;
-      margin-bottom: 0.75rem;
+      padding-left: 1.5rem;
+      margin-bottom: 0.5rem;
       color: #4a5568;
-      line-height: 1.6;
-      transition: all 0.2s ease-in-out;
+      line-height: 1.5;
+      font-size: 0.9rem;
 
       &::before {
         position: absolute;
         left: 0;
-      }
-
-      &:hover {
-        transform: translateY(-1px);
       }
     }
   }
@@ -242,22 +260,16 @@ export const DocContent = styled.main<{ theme: any }>`
   }
 `;
 
-export const TableOfContents = styled.aside<{ theme: any }>`
+export const TableOfContents = styled.nav<{ theme: any }>`
   background-color: ${props => props.theme.sidebar};
   border-left: 1px solid ${props => props.theme.border};
+  padding: 1.2rem;
   overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-  overscroll-behavior: contain;
-  padding: 1.5rem;
-
-  @media (max-width: 1024px) {
-    display: none;
-  }
+  font-size: 0.9rem;
 
   h3 {
-    margin: 0 0 1rem 0;
-    font-size: 1rem;
-    font-weight: 600;
+    font-size: 1.1rem;
+    margin: 0 0 1.2rem 0;
     color: ${props => props.theme.text};
   }
 
@@ -269,34 +281,32 @@ export const TableOfContents = styled.aside<{ theme: any }>`
 
   li {
     margin: 0.5rem 0;
+    
+    &.h1 { padding-left: 0; }
+    &.h2 { padding-left: 1.2rem; }
+    &.h3 { padding-left: 2rem; }
+  }
 
-    a {
-      color: ${props => props.theme.text};
-      text-decoration: none;
-      font-size: 0.95rem;
-      opacity: 0.8;
-      transition: all 0.2s ease;
-      display: block;
-      padding: 0.5rem;
-      border-radius: 6px;
-
-      &:hover {
-        opacity: 1;
-        color: ${props => props.theme.primary};
-        background-color: ${props => props.theme.hover};
-      }
-
-      &.active {
-        color: ${props => props.theme.primary};
-        font-weight: 600;
-        opacity: 1;
-        background-color: ${props => props.theme.hover};
-      }
+  a {
+    color: ${props => props.theme.text};
+    text-decoration: none;
+    font-size: 0.9rem;
+    opacity: 0.8;
+    display: block;
+    padding: 0.3rem 0;
+    
+    &:hover {
+      opacity: 1;
     }
+    
+    &.active {
+      color: ${props => props.theme.primary};
+      opacity: 1;
+    }
+  }
 
-    &.h1 a { padding-left: 0.5rem; }
-    &.h2 a { padding-left: 1.2rem; }
-    &.h3 a { padding-left: 1.9rem; }
+  @media (max-width: 1024px) {
+    display: none;
   }
 `;
 

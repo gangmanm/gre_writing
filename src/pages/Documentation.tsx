@@ -13,6 +13,7 @@ import type { Components } from 'react-markdown';
 import { InfoBox } from '../components/markdown';
 import { JsonList } from '../components/JsonList';
 import { FaBars, FaList } from 'react-icons/fa';
+import styled from '@emotion/styled';
 
 interface DocSection {
   id: string;
@@ -126,6 +127,24 @@ const createHeadingComponent = (
     );
   };
 };
+
+export const DocLayout = styled.div<{ theme: any }>`
+  display: grid;
+  grid-template-columns: 250px minmax(0, 1fr);
+  background-color: ${(props: { theme: any }) => props.theme.background};
+  position: fixed;
+  top: 60px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+
+  @media (max-width: 1024px) {
+    grid-template-columns: 1fr;
+    top: 50px;
+    bottom: 60px;
+  }
+`;
 
 export const Documentation = () => {
   const [themeMode, setThemeMode] = useRecoilState(themeState);
@@ -353,7 +372,7 @@ export const Documentation = () => {
 
   return (
     <>
-      <S.DocLayout theme={theme}>
+      <DocLayout theme={theme}>
         <S.Sidebar theme={theme}>
           <S.NavList>
             {renderNavItems(docSections)}
@@ -372,26 +391,7 @@ export const Documentation = () => {
             </div>
           </S.DocContent>
         </S.DocContainer>
-        <S.TableOfContents theme={theme}>
-          <h3>Table of Contents</h3>
-          <ul>
-            {headers.map(({ id, text, level }) => (
-              <li key={id} className={`h${level}`}>
-                <a
-                  href={`#${id}`}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleTocClick(id);
-                  }}
-                  className={activeHeader === id ? 'active' : ''}
-                >
-                  {text}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </S.TableOfContents>
-      </S.DocLayout>
+      </DocLayout>
 
       {/* Mobile Navigation */}
       <S.MobileNav theme={theme}>
@@ -402,22 +402,12 @@ export const Documentation = () => {
           <FaBars />
           <span>Menu</span>
         </S.MobileNavButton>
-        <S.MobileNavButton 
-          theme={theme}
-          onClick={() => setIsMobileTocOpen(!isMobileTocOpen)}
-        >
-          <FaList />
-          <span>Contents</span>
-        </S.MobileNavButton>
       </S.MobileNav>
 
       {/* Mobile Overlay */}
       <S.MobileOverlay 
-        isOpen={isMobileSidebarOpen || isMobileTocOpen} 
-        onClick={() => {
-          setIsMobileSidebarOpen(false);
-          setIsMobileTocOpen(false);
-        }}
+        isOpen={isMobileSidebarOpen} 
+        onClick={() => setIsMobileSidebarOpen(false)}
       />
 
       {/* Mobile Sidebar */}
@@ -432,34 +422,6 @@ export const Documentation = () => {
           {renderNavItems(docSections)}
         </S.NavList>
       </S.MobileSidebar>
-
-      {/* Mobile Table of Contents */}
-      <S.MobileToc theme={theme} isOpen={isMobileTocOpen}>
-        <S.MobileNavHeader theme={theme}>
-          <h3>Table of Contents</h3>
-          <S.MobileCloseButton theme={theme} onClick={() => setIsMobileTocOpen(false)}>
-            ✕
-          </S.MobileCloseButton>
-        </S.MobileNavHeader>
-        <div style={{ padding: '1.5rem' }}>
-          <ul>
-            {headers.map(({ id, text, level }) => (
-              <li key={id} className={`h${level}`}>
-                <a
-                  href={`#${id}`}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleTocClick(id);
-                  }}
-                  className={activeHeader === id ? 'active' : ''}
-                >
-                  {text}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </S.MobileToc>
     </>
   );
 }; 
