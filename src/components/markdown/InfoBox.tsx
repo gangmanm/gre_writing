@@ -41,25 +41,25 @@ const getIconAndColor = (type: InfoBoxType) => {
 
 const Container = styled.div<{ type: InfoBoxType }>`
   border-radius: 8px;
-  padding: 1rem 1.5rem;
-  margin: 1.5rem 0;
+  padding: 1.2rem 1.5rem;
+  margin: 1rem 0;
   background-color: ${props => getIconAndColor(props.type).bgColor};
   border-left: 4px solid ${props => getIconAndColor(props.type).color};
   ${props => props.type === 'essay' && `
     background-color: #FFFFFF;
     border: 1px solid #E5E7EB;
-    border-radius: 2px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-    padding: 2rem 2.5rem;
-    margin: 2rem auto;
+    border-radius: 4px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
   `}
 `;
 
 const Header = styled.div<{ type: InfoBoxType }>`
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.75rem;
+  padding-bottom: 0.75rem;
   margin-bottom: 0.75rem;
+  border-bottom: 1px solid #F3F4F6;
   color: ${props => getIconAndColor(props.type).color};
   font-weight: 600;
 
@@ -68,15 +68,13 @@ const Header = styled.div<{ type: InfoBoxType }>`
   }
 
   ${props => props.type === 'essay' && `
-    padding-bottom: 1rem;
-    margin-bottom: 1.5rem;
-    border-bottom: 1px solid #E5E7EB;
-    color: #4B5563;
+    color: #6B7280;
     font-family: system-ui, -apple-system, sans-serif;
+    font-size: 1rem;
     
     svg {
-      font-size: 1.5rem;
-      color: #4B5563;
+      font-size: 1.2rem;
+      color: #9CA3AF;
     }
   `}
 `;
@@ -102,32 +100,51 @@ const Content = styled.div<{ type?: InfoBoxType }>`
   }
 
   ${props => props.type === 'essay' && `
-    font-size: 1rem;
-    line-height: 1.8;
-    color: #1F2937;
+    color: #4B5563;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    
+    h3 {
+      color: #374151;
+      font-family: system-ui, -apple-system, sans-serif;
+      font-size: 1rem;
+      font-weight: 500;
+      margin: 1rem 0 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      
+      &:first-of-type {
+        margin-top: 0;
+      }
+      
+      span.task-number {
+        color: #6B7280;
+        font-weight: 500;
+        font-size: 1em;
+      }
+    }
     
     p {
-      margin: 1.5rem 0;
-      text-align: justify;
-      letter-spacing: -0.003em;
+      margin: 0.75rem 0;
+      color: #4B5563;
       
       &:first-of-type {
         margin-top: 0;
         background: #F9FAFB;
-        padding: 1rem 1.2rem;
+        padding: 0.75rem 1rem;
         border-radius: 4px;
-        text-align: left;
-        margin-bottom: 2rem;
+        margin-bottom: 1rem;
         
         strong {
-          color: #374151;
+          color: #6B7280;
           font-family: system-ui, -apple-system, sans-serif;
-          font-size: 0.9rem;
-          font-weight: 600;
+          font-size: 0.875rem;
+          font-weight: 500;
           text-transform: uppercase;
-          letter-spacing: 0.05em;
+          letter-spacing: 0.025em;
           display: block;
-          margin-bottom: 0.5rem;
+          margin-bottom: 0.25rem;
         }
       }
       
@@ -135,9 +152,9 @@ const Content = styled.div<{ type?: InfoBoxType }>`
         color: #4B5563;
         font-family: system-ui, -apple-system, sans-serif;
         font-size: 0.95rem;
-        font-weight: 600;
+        font-weight: 500;
         display: inline-block;
-        margin-bottom: 0.5rem;
+        margin-bottom: 0.25rem;
       }
     }
   `}

@@ -1,4 +1,6 @@
 @essay[{"taskNumber": 1, "topic": "Governments should place few, if any, restrictions on scientific research and development."}]
+@end
+
 
 Scientific research has undoubtedly driven much of humanity's progress — from curing diseases to developing life-saving technologies. However, with its power to transform society also comes the potential to harm it. For this reason, I argue that governments must implement thoughtful regulations on scientific research and development, especially in areas that pose ethical or safety concerns.
 
@@ -9,5 +11,3 @@ Furthermore, scientific endeavors, when mismanaged, can result in large-scale un
 Critics of regulation argue that government intervention hampers innovation and slows down scientific progress. While that risk exists, it can be mitigated by designing smart regulations — flexible policies that encourage safe innovation while minimizing red tape. In fact, proactive regulation helps science thrive in the long run by building public trust. Without trust, funding and support for research may decline, especially after high-profile ethical scandals.
 
 In conclusion, while scientific freedom is essential, it must be tempered by responsibility. Governments should act as both facilitators and guardians of scientific progress — enabling discovery while ensuring that such discoveries benefit society without causing harm. Thoughtful regulation is not a barrier to innovation; it is the foundation of ethical and sustainable advancement.
-@end
-
